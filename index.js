@@ -18,7 +18,6 @@
 // } from "./zipfile-methods.js";
 // import { clearScreen } from "./inquirer-methods.js";
 
-// import {csvTransform} from './csv-methods.js'
 
 
 
@@ -36,7 +35,6 @@ const {
 } = require("./zipfile-methods.js");
 const { clearScreen } = require("./inquirer-methods.js");
 
-const { csvTransform } = require('./csv-methods.js');
 
 const directoryToWatch = path.join(process.cwd());
 const outputPath = path.join(process.cwd());
@@ -72,10 +70,7 @@ watcher.on("add", async (filePath) => {
       clearTimeout(timerAdd);
       latestModifiedFile = await getLastModifiedFile(addFiles);
       let {fileName} = await needsPasswordUnzip(latestModifiedFile, addFiles);
-      // console.log(fileName)
-      let csvFilePath = path.join(process.cwd(),fileName);
-      let csvOutputPath = path.join(process.cwd(),`${fileName}.unzip.csv`);
-      await csvTransform(csvFilePath,csvOutputPath)
+      await fs.unlink(filePath)
     } catch (error) {
       // let errorFileIndex = addFiles.indexOf(error.path);
       let errorFileIndex = addFiles.findIndex(
